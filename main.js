@@ -128,7 +128,7 @@ var restaurants = [{
 
 foodieApp.controller('favController',function($scope,$location,$http) {
 
-
+	//index=0;
 	$scope.ingredients = [];
 
 //console.log($routeParams.id);
@@ -159,7 +159,7 @@ foodieApp.controller('favController',function($scope,$location,$http) {
 						id: 2,
 						bestDish: {
 									name: 'Corn Pizza',
-									image: 'http://noblepig.com/images/2016/06/Avocado-and-Three-Bean-Salad-is-perfect-for-a-summertime-barbecue-side-dish.JPG'
+									image: 'https://static01.nyt.com/images/2016/06/28/dining/28COOKING-FRIEDCHICKENGUIDE13/28COOKING-FRIEDCHICKENGUIDE13-superJumbo.jpg'
 								},
             hours: '9 AM to 1 AM (Mon-Sun)',
             image: 'https://b.zmtcdn.com/data/pictures/chains/2/308022/dabd30bd0b000ea859ada9a08a0132fc.jpg'
@@ -175,7 +175,7 @@ foodieApp.controller('favController',function($scope,$location,$http) {
 								id: 3,
 								bestDish: {
 											name: 'Corn Pizza',
-											image: 'http://noblepig.com/images/2016/06/Avocado-and-Three-Bean-Salad-is-perfect-for-a-summertime-barbecue-side-dish.JPG'
+											image: 'sa.JPG'
 										},
                 hours: '5 AM Noon to 10 PM (Mon-Sun)',
                 image: 'https://b.zmtcdn.com/data/pictures/chains/2/308022/dabd30bd0b000ea859ada9a08a0132fc.jpg'
@@ -196,6 +196,23 @@ foodieApp.controller('favController',function($scope,$location,$http) {
                     hours: '1 AM to 1 PM (Mon-Sun)',
                     image: 'https://b.zmtcdn.com/data/pictures/chains/2/308022/dabd30bd0b000ea859ada9a08a0132fc.jpg'
                     }]
+
+	$scope.getList = function(){
+                    	restlist = angular.copy($scope.restaurants);
+                    	var imageUrls= [];
+                    	for(var i =0 ; i< $scope.restaurants.length; i++){
+                    		imageUrls.push(restlist[i].bestDish.image);
+    		        	         }
+
+    		        	for(i=0; i<4; i++){
+
+    		        		$scope.getFav(imageUrls[i]);
+
+    		        	}    
+
+                    	//console.log(imageUrls);
+                    	//console.log($scope.restaurants.length);
+            		        }
 
 
 
@@ -233,7 +250,10 @@ foodieApp.controller('favController',function($scope,$location,$http) {
 					};
 
 
-								$scope.getFav = function(url) {
+								$scope.getFav = function(url,$index) {
+
+									console.log($index);
+
 						var data = '{"inputs":[{"data":{"image":{"url":"' + url + '"}}}]}'
 										$http({
 											'method': 'POST',
@@ -251,6 +271,10 @@ foodieApp.controller('favController',function($scope,$location,$http) {
 														for (var i =0;i < ingredients.length;i++) {
 															$scope.ingredients.push(ingredients[i].name);
 														}
+														console.log(ingredients);
+
+
+
 
 														for(var i=0;i< $scope.lst1.length;i++){
 													if ($scope.ingredients.indexOf($scope.lst1[i]) > -1) {
@@ -259,14 +283,15 @@ foodieApp.controller('favController',function($scope,$location,$http) {
 																	var info1 = "<h2 class='highlight-info'>You will not like this Food</h2>";
 																  console.log("Not Your FAV");
 																	$(".rest-wrapper").append(info1);
-																		$(".restaurant").css("background-color" ,"#ea0b0b");
+																		console.log(".rest-wrapper-" +index);
+																		$(".rest-wrapper-" +index).css("background-color" ,"#ea0b0b");
 
 																					break;
 																}
 																var info2 = "<h2 class='highlight-info'>This is the food You May LIKE</h2>";
 																console.log("Your FAV");
 																$(".rest-wrapper").append(info2);
-																	$(".restaurant").css("background-color" ,"#308917");
+																	(".rest-wrapper-" +index).css("background-color" ,"#308917");
 																break;
 															 }
 
@@ -274,7 +299,7 @@ foodieApp.controller('favController',function($scope,$location,$http) {
 																 var info1 = "<h2 class='highlight-info'>You will not like this Food</h2>";
 																 console.log("Not Your FAV");
 																 $(".rest-wrapper").append(info1);
-																	 $(".restaurant").css("background-color" ,"#ea0b0b");
+																	 (".rest-wrapper-" +index).css("background-color" ,"#ea0b0b");
 
 															 }
 
